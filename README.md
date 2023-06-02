@@ -12,3 +12,7 @@
 可广泛用于各类规范文本的排版。
 
 本插件完全免费，承诺不含任何恶意代码。
+
+官网地址:  https://xkonglong.com
+
+VBA脚本讨论组: https://github.com/xkonglong/gw/discussions
