@@ -13,6 +13,8 @@
 可广泛用于各类规范文本的排版。
 
 插件支持 VBA 脚本,可以在此处`VBA Script`文件夹查看和下载vba脚本, 也可到 [VBA脚本讨论组](https://github.com/xkonglong/gw/discussions)
+VBA 脚本可以实现自动排版等复杂的且个性化的操作.
+![vba](https://gw.xkonglong.com/img/screenshots.gif)
 
 点此查看 [VBA指南](VBA指南.md)
 
