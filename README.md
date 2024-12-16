@@ -14,6 +14,8 @@
 
 插件支持 VBA 脚本,可以在此处`VBA Script`文件夹查看和下载vba脚本, 也可到 [VBA脚本讨论组](https://github.com/xkonglong/gw/discussions)
 
+点此查看 [VBA指南](VBA指南.md)
+
 本插件完全免费，承诺不含任何恶意代码。
 
 
