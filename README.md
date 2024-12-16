@@ -1,5 +1,6 @@
 ## 小恐龙公文排版助手 for Word/WPS
 
+官网地址:  ![https://xkonglong.com](https://xkonglong.com)
 
 ![小恐龙公文排版助手](https://gw.xkonglong.com/img/xklbanner.jpg)
 
@@ -11,8 +12,8 @@
 
 可广泛用于各类规范文本的排版。
 
+插件支持 VBA 脚本,可以在此处`VBA Script`文件夹查看和下载vba脚本, 也可到 ![VBA脚本讨论组](https://github.com/xkonglong/gw/discussions)
+
 本插件完全免费，承诺不含任何恶意代码。
 
-官网地址:  https://xkonglong.com
 
-VBA脚本讨论组: https://github.com/xkonglong/gw/discussions
