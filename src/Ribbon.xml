@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI onLoad="Ribbon_Load" xmlns="http://schemas.microsoft.com/office/2006/01/customui">
+    <ribbon>
+        <tabs>
+            <tab id="tab1" label="公文" keytip="XKL">
+                <group id="group1" label="版面" keytip="B1">
+                    <toggleButton id="btnPaper" imageMso="PageMarginsGallery" onAction="btnPaper_Click" screentip="页面设置" supertip="切换显示公文助手面板" description="打开页面设置对话框" label="页面设置" size="large" />
+                    <button id="btnInsert2" imageMso="AlignJustifyMedium" onAction="btnInsert2_Click" screentip="中文缩进" supertip="首行缩进2字符" label="中文缩进" />
+                    <button id="btnLeft" imageMso="IndentDecrease" onAction="btnLeft_Click" screentip="段落顶格" supertip="取消缩进和悬挂至文字顶格" label="段落顶格" />
+                    <button id="btnHeadNoLine" onAction="btnHeadNoLine_Click" screentip="删除页眉横线" label="删除页眉横线" showImage="false" />
+                    <gallery id="glyFormat" imageMso="AsianTypography" screentip="文字排版工具" supertip="一些常用的文字替换和格式工具" label="排版&#xD;" size="large">
+                        <button id="btnFormatFullLine" onAction="btnFormatFullLine_Click" screentip="恢复不正确的换行" supertip="(全文级别处理)" description="恢复不正确的换行(全文级别处理)" label="断行重排" />
+                        <button id="btnFormatR2N" onAction="btnFormatR2N_Click" screentip="转换文档中所有的软回车" supertip="(全文级别处理)" label="换行符转回车" showImage="false" />
+                        <button id="btnFormatDelSpace" onAction="btnFormatDelSpace_Click" screentip="删除文档中所有空白" supertip="(全文级别处理)" label="删除所有空白" />
+                        <button id="btnFormatDelSelectSpace" onAction="btnFormatDelSelectSpace_Click" screentip="删除选定范围内的空格" supertip="(可选定范围)" label="删除空格(选定范围)" showImage="false" />
+                        <button id="btnFormatDelEmptyLine" onAction="btnFormatDelEmptyLine_Click" screentip="删除文档中所有空行" supertip="(全文级别处理)" label="删除所有空行" showImage="false" />
+                        <button id="btnFormatDelGraphic" onAction="btnFormatDelGraphic_Click" screentip="删除文档中所有图片、图表、SmartART，不含形状。" supertip="(全文级别处理)" label="删除图片图表" showImage="false" />
+                        <button id="btnFormatRemoveURL" onAction="btnFormatRemoveURL_Click" screentip="删除文档中所有的超链接" supertip="(全文级别处理)" label="删除超链接" showImage="false" />
+                        <button id="btnFormatAddSpace" onAction="btnFormatAddSpace_Click" screentip="在中文和英文之间添加半角空格" supertip="(全文级别处理)" label="中英文之间添加空格" showImage="false" />
+                        <button id="btnFormatE2C" onAction="btnFormatE2C_Click" supertip="转换为中文全角格式的标点符号." label="标点符号(英转中)" showImage="false" />
+                        <button id="btnFormatC2E" onAction="btnFormatC2E_Click" supertip="转换为英文半角格式的标点符号." label="标点符号(中转英)" showImage="false" />
+                    </gallery>
+                    <dialogBoxLauncher>
+                        <button id="group1__btn" screentip="打开页面设置对话框" />
+                    </dialogBoxLauncher>
+                </group>
+                <group id="group2" label="公文标题">
+                    <button id="btnTitleHei" imageMso="TableCellAlignTop" onAction="btnTitleHei_Click" screentip="公文标题" supertip="设置公文标题格式,二号黑体居中" label="公文标题" />
+                    <comboBox id="cobFonts" sizeString="XXXXXXXX" onChange="cobFonts_TextChanged" screentip="公文标题" supertip="根据所选的中文字体设置为二号字标题,居中" label="二号" showImage="false">
+                        <item id="__id217" label="Item2" />
+                    </comboBox>
+                </group>
+                <group id="group3" label="文字格式">
+                    <button id="btnNormal" imageMso="GroupTextBoxText" onAction="btnNormal_Click" screentip="公文正文" supertip="设置所选文字为正文格式,仿宋3号" label="正文&#xD;" size="large" />
+                    <separator id="separator2" />
+                    <dynamicMenu id="mnuTitle1" imageMso="_1" keytip="1" screentip="选中文字时,设置标题序号和字体格式;  未选中文字时,只设置标题序号,不设置字体格式." label="标题一、" getContent="mnuTitle1_GetContent" />
+                    <dynamicMenu id="mnuTitle2" imageMso="_2" keytip="2" screentip="选中文字时,设置标题序号和字体格式;  未选中文字时,只设置标题序号,不设置字体格式." label="标题(一)" getContent="mnuTitle2_GetContent" />
+                    <buttonGroup id="buttonGroup2">
+                        <toggleButton id="btnUnderDot" imageMso="E" onAction="btnUnderDot_Click" keytip="E" screentip="给选定文字加着重号" supertip="给选定文字加着重号,这是中文排版特有的一项格式,通常意味该段文字很重要." label="着重号" showLabel="false" />
+                        <toggleButton id="btnHideFont" imageMso="H" onAction="btnHideFont_Click" keytip="H" screentip="隐藏选定文字" supertip="文字设为隐藏格式后,选项设置-打印,可以选择是否打印隐藏文字.适用于试卷或者不需要打印的文字." label="隐藏" showLabel="false" />
+                    </buttonGroup>
+                    <separator id="separator3" />
+                    <dynamicMenu id="mnuTitle3" imageMso="_3" keytip="3" screentip="选中文字时,设置标题序号和字体格式;  未选中文字时,只设置标题序号,不设置字体格式." label="标题1." getContent="mnuTitle3_GetContent" />
+                    <dynamicMenu id="mnuTitle4" imageMso="_4" keytip="4" screentip="选中文字时,设置标题序号和字体格式;  未选中文字时,只设置标题序号,不设置字体格式." label="标题(1)" getContent="mnuTitle4_GetContent" />
+                    <gallery id="glyFont" imageMso="FontsReplaceFonts" label="字体更改">
+                        <button id="btnFontFSgb2312" onAction="btnFontFSgb2312_Click" label="仿宋GB2312=&gt;仿宋" showImage="false" />
+                        <button id="btnFontFS" onAction="btnFontFS_Click" label="仿宋=&gt;仿宋GB2312" showImage="false" />
+                        <button id="btnFontKTgb2312" onAction="btnFontKTgb2312_Click" label="楷体GB2312=&gt;楷体" showImage="false" />
+                        <button id="btnFontKT" onAction="btnFontKT_Click" label="楷体=&gt;楷体GB2312" showImage="false" />
+                        <button id="btnFontBS2HT" onAction="btnFontBS2HT_Click" label="方正小标宋=&gt;黑体" showImage="false" />
+                        <button id="btnFontHT2BS" onAction="btnFontHT2BS_Click" label="黑体=&gt;方正小标宋_GBK" showImage="false" />
+                    </gallery>
+                    <button id="btnNum2Txt" imageMso="FormattingUnique" onAction="btnNum2Txt_Click" screentip="编号转换为文字格式" supertip="将文档自动编号改为文字方式.转换后无法自动编号." label="编号转文字" size="large" />
+                    <separator id="separator1" />
+                    <button id="btnHead" imageMso="HeaderFooterEditHeader" onAction="btnHead_Click" screentip="选定文字设为三号黑体" supertip="公文中常用于二级标题和密级等文字." label="三号黑体" />
+                    <button id="btnName" imageMso="NewDistributionList" onAction="btnName_Click" screentip="设置所选文字为三号楷体" supertip="公文中常用于签发人姓名." label="三号楷体" />
+                    <button id="btnFoot" imageMso="HeaderFooterEditFooter" onAction="btnFoot_Click" screentip="设置所选文字为四号仿宋" supertip="公文中常用于版记部分的文字" label="四号仿宋" />
+                    <splitButton id="btnStyle" imageMso="ChangeStylesMenu" size="large">
+                        <button id="btnStyle__btn" screentip="公文专用样式" supertip="生成公文专用的样式,并在样式面板中预览." label="样式&#xD;" />
+                        <menu id="btnStyle__mnu" screentip="公文专用样式" supertip="生成公文专用的样式,并在样式面板中预览.">
+                            <button id="btnStyleR" imageMso="QuickStylesSets" onAction="btnStyleR_Click" screentip="强制重建公文样式" label="强制重建" />
+                        </menu>
+                    </splitButton>
+                    <dialogBoxLauncher>
+                        <button id="group3__btn" screentip="打开字体设置对话框"  />
+                    </dialogBoxLauncher>
+                </group>
+                <group id="group4" label="插入">
+                    <button id="btnDate" imageMso="DateAndTimeInsert" onAction="btnDate_Click" screentip="插入公文日期" supertip="插入公文格式日期 例如:2017年1月12日" label="插入日期" />
+                    <button id="btnInsertPaper" imageMso="PageOrientationPortraitLandscape" onAction="btnInsertPaper_Click" screentip="插入横向页面" supertip="在当前页之后插入一个横向的A4页面" label="插入横页" />
+                    <gallery id="glyLine" imageMso="HorizontalLineInsert" screentip="插入横线" supertip="插入分割线或版记线(双线或者三线)" label="横线" showItemImage="false">
+                        <button id="btnLine1" imageMso="QuickSearchSubject" onAction="btnLine1_Click" supertip="插入红色间隔线(反线)" label="间隔线" />
+                        <button id="btnLine2" imageMso="TableCellAlignBottom" onAction="btnLine2_Click" keytip="1" supertip="插入单行版记线" label="双线(单行版记)" />
+                        <button id="btnLine3" imageMso="TableCellAlignBottomCenter" onAction="btnLine3_Click" keytip="2" supertip="插入双行版记线" label="三线(双行版记)" />
+                    </gallery>
+                    <gallery id="glyFoot" imageMso="HeaderFooterPageNumberInsert" keytip="#" screentip="插入页码" supertip="插入公文格式页码." description="插入公文格式页码." label="页码&#xD;" size="large" showItemImage="false">
+                        <button id="btnNumberCenter" imageMso="AlignCenter" onAction="btnNumberCenter_Click" keytip="1" screentip="— 1 —" supertip="每页居中显示" description="每页居中显示 — 1 —" label="居中" />
+                        <button id="btnNumberOutside" imageMso="AlignRight" onAction="btnNumberOutside_Click" keytip="2" screentip="— 1 —" supertip="奇数页右侧,偶数页左侧" label="外侧" />
+                    </gallery>
+                    <gallery id="glySymbol" imageMso="StarUnratedFull" onAction="galSymbol_Click" keytip="@" screentip="插入公文常用符号" supertip="插入文公常用的标点符号和特殊字符." label="符号&#xD;" size="large" columns="4">
+                        <item id="__id219" label="㎡" screentip="平方米" />
+                        <item id="__id220" label="m³" screentip="立方米" />
+                        <item id="__id221" label="‰" screentip="千分号" />
+                        <item id="__id222" label="℃" screentip="摄氏度" />
+                        <item id="__id223" label="·" screentip="间隔符" />
+                        <item id="__id224" label="……" screentip="省略号" />
+                        <item id="__id225" label="、" screentip="顿号" />
+                        <item id="__id226" label="——" screentip="破折号" />
+                        <item id="__id227" label="～" screentip="连接号" />
+                        <item id="__id228" label="〔〕" screentip="六角括号" />
+                        <item id="__id229" label="《》" screentip="书名号(双)" />
+                        <item id="__id230" label="〈〉" screentip="书名号(单)" />
+                        <item id="__id231" label="＋" screentip="加号" />
+                        <item id="__id232" label="－" screentip="减号" />
+                        <item id="__id233" label="×" screentip="乘号" />
+                        <item id="__id234" label="÷" screentip="除号" />
+                        <item id="__id235" label="①" />
+                        <item id="__id236" label="②" />
+                        <item id="__id237" label="③" />
+                        <item id="__id238" label="④" />
+                        <item id="__id239" label="⑤" />
+                        <item id="__id240" label="⑥" />
+                        <item id="__id241" label="⑦" />
+                        <item id="__id242" label="⑧" />
+                        <item id="__id243" label="⑨" />
+                        <item id="__id244" label="⑩" />
+                        <item id="__id245" label="□" screentip="虚缺号" />
+                        <item id="__id246" label="★" />
+                        <button id="btnSymbol_zkh" onAction="btnSymbol_zkh_Click" supertip="替换公文中年份的中括号转换为六角括号.支持类似[2012]、[019]、[97]、[2]，不支持[4位以上数字]或[中英文字符]" label="将 [] 替换为〔〕" showImage="false" />
+                        <button id="btnSymbol_hkh" onAction="btnSymbol_hkh_Click" supertip="替换公文中年份的黑括号转换为六角括号.支持类似[2012]、[019]、[97]、[2]，不支持[4位以上数字]或[中英文字符]" label="将【】替换为〔〕" showImage="false" />
+                        <button id="btnSymbol_index" onAction="BtnSymbol_index_Click" screentip="对选中数字转换为带圈序号,仅支持1-20." label="转换数字为带圈序号" showImage="false" />
+                    </gallery>
+                    <splitButton id="btnInsertSignPic" imageMso="StampTool" keytip="!" size="large">
+                        <button id="btnInsertSignPic__btn" screentip="加盖公章" supertip="插入或者链接公章图片." label="公章&#xD;" />
+                        <menu id="btnInsertSignPic__mnu" keytip="!" screentip="加盖公章" supertip="插入或者链接公章图片.">
+                            <button id="btnInsertSignPicLink" imageMso="EditLinks" onAction="btnInsertSignPicLink_Click" screentip="以连接方式插入公章图片(更安全)" supertip="此方式插入的图片不会保存到文档中,分发给别人时,由于找不到公章图片的位置,将无法看到公章." label="连接公章" />
+                            <button id="btnInsertSignPicSave" imageMso="SaveAttachments" onAction="btnInsertSignPicSave_Click" screentip="插入公章图片" supertip="此方式插入的公章将被保存到文档中,会增加文档尺寸." label="插入公章" />
+                        </menu>
+                    </splitButton>
+                </group>
+                <group id="group6" label="其他" imageMso="Save">
+                    <gallery id="glyBak" imageMso="FileSaveAs" onAction="GlyBak_Click" screentip="保存副本文件" supertip="生成其他格式的副本用于分享." label="副本&#xD;" size="large" itemHeight="32" itemWidth="32">
+                        <item id="__id248" imageMso="FileEmailAsPdfEmailAttachment" label="生成 PDF 副本" screentip="在文档所在文件夹下,生成 PDF 格式的同名.pdf文档" />
+                        <item id="__id249" imageMso="FileSaveAsWord97_2003" label="生成 DOC 副本" screentip="在文档所在文件夹下,生成Word97/2003格式的同名doc文档" />
+                        <item id="__id250" imageMso="SaveAsPng" label="生成 PNG 图片副本" screentip="在文档所在文件夹下,生成一组 PNG 图片格式的同名_n.png文档" />
+                        <item id="__id251" imageMso="SaveAsJpg" label="生成 JPG 图片副本" screentip="在文档所在文件夹下,生成一组 JPG 图片格式的同名_n.jpg文档" />
+                        <button id="btnSaveAsPDF" imageMso="FileEmailAsPdfEmailAttachment" onAction="btnSaveAsPDF_Click" visible="false" supertip="在文档同一个文件夹里生成同名的PDF格式副本" label="生成 PDF 副本" />
+                        <button id="btnSaveAsDoc" imageMso="FileSaveAsWord97_2003" onAction="btnSaveAsDoc_Click" visible="false" supertip="在文档同一个文件夹里生成同名的Word97-Word2003格式副本" label="生成 DOC 副本" />
+                        <button id="btnSaveAsPic" imageMso="SaveAsPng" onAction="btnSaveAsPic_Click" visible="false" screentip="将文档按页面保存为PNG图片" supertip="将文档以PNG图片形式保存到同一目录下.通常用于无法保存排版格式,又无PDF或word的环境," label="生成 PNG 图片副本" />
+                        <button id="btnSaveAsJPG" imageMso="SaveAsJpg" onAction="BtnSaveAsJPG_Click" visible="false" screentip="将文档按页面保存为JPG图片" supertip="将文档以JPG图片形式保存到同一目录下.通常用于无法保存排版格式,又无PDF或word的环境,Jpg更适合文章内含有大量插图的页面." label="生成 JPG 图片副本" />
+                        <button id="btnSaveAsPicAt" imageMso="PicturePropertiesAlternativeText" onAction="btnSaveAsPicAt_Click" screentip="将当前页面单独保存为图片格式" supertip="图片格式为Png/jpg/Tiff, 与保存副本不同,单独保存图片时需要指定路径和格式." label="当前页面存为 PNG/JPG/TIFF 图片..." />
+                    </gallery>
+                    <toggleButton id="btnProtectDoc" imageMso="ProtectDocument" onAction="btnProtectDoc_Click" supertip="打开限制编辑窗格" label="限制编辑" />
+                    <gallery id="glyPassword" imageMso="PasswordProtectSection" supertip="设置或取消文档打开时的密码口令" label="文档加密">
+                        <button id="btnSetPW" imageMso="WebControlPassword" onAction="btnSetPW_Click" screentip="设置或取消文档打开/修改密码." supertip="打开密码:打开文档时要求输入,密码不正确将无法打开文档. 修改密码:不知道密码,可以只读方式打开文档." label="设置密码" />
+                        <button id="btnClearOpenPW" imageMso="SetDatabasePassword" onAction="btnClaerPW_Click" supertip="清除打开文档时要求输入的密码.未输入该密码,文档将无法打开." label="清除打开密码" />
+                        <button id="btnClearProtectPW" imageMso="HighlightClear" onAction="btnClearProtectPW_Click" supertip="清除文档修改密码.未输入该密码时,文档将以只读方式打开." label="清除修改密码" />
+                    </gallery>
+                    <buttonGroup id="buttonGroup1">
+                        <button id="btnSpeak" imageMso="SpeakCells" onAction="btnSpeak_Click" screentip="单击朗读所选文字,再次单击停止" supertip="语音设置请到系统&quot;控制面板\语音识别\文本到语音转换&quot; 中设置." label="朗读" tag="" />
+                    </buttonGroup>
+                    <dialogBoxLauncher>
+                        <button id="group6__btn" screentip="修改摘要信息" />
+                    </dialogBoxLauncher>
+                </group>
+                <group id="group5" label="关于">
+                    <button id="btnAbout" onAction="btnAbout_Click" screentip="小恐龙公文助手" supertip="小恐龙工作室出品 免费,不含恶意代码" label="关于插件" size="large" />
+                    <button id="btnXkonglong" imageMso="GroupInsertLinks" onAction="btnXkonglong_Click" screentip="访问作者网站" supertip="http://xkonglong.com" label="访问网站" />
+                    <button id="btnHelp" imageMso="Help" onAction="btnHelp_Click" label="在线帮助" />
+                    <button id="btnEmail" imageMso="OfficeButtonFeedback" onAction="btnEmail_Click" label="建议反馈" />
+                    <dialogBoxLauncher>
+                        <button id="group5__btn" screentip="列出快捷键" />
+                    </dialogBoxLauncher>
+                </group>
+            </tab>
+        </tabs>
+    </ribbon>
+</customUI>
