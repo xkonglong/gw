@@ -1,0 +1,90 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="公文排版.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="上边距" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">37</Value>
+    </Setting>
+    <Setting Name="下边距" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">35</Value>
+    </Setting>
+    <Setting Name="左边距" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">28</Value>
+    </Setting>
+    <Setting Name="右边距" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">26</Value>
+    </Setting>
+    <Setting Name="页脚边距" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">24.7</Value>
+    </Setting>
+    <Setting Name="行数" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">22</Value>
+    </Setting>
+    <Setting Name="字数" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">28</Value>
+    </Setting>
+    <Setting Name="公文标题" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">方正小标宋简体, 21.75pt</Value>
+    </Setting>
+    <Setting Name="一级标题" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">黑体, 15.75pt</Value>
+    </Setting>
+    <Setting Name="二级标题" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">楷体, 15.75pt</Value>
+    </Setting>
+    <Setting Name="三级标题" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">仿宋, 15.75pt</Value>
+    </Setting>
+    <Setting Name="四级标题" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">仿宋, 15.75pt</Value>
+    </Setting>
+    <Setting Name="正文" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">仿宋, 15.75pt</Value>
+    </Setting>
+    <Setting Name="版头" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">黑体, 15.75pt</Value>
+    </Setting>
+    <Setting Name="签发人姓名" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">楷体, 15.75pt</Value>
+    </Setting>
+    <Setting Name="版记" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">仿宋, 14.25pt</Value>
+    </Setting>
+    <Setting Name="行间距" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">28</Value>
+    </Setting>
+    <Setting Name="允许行间距" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="帮助_页面设置" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://mubu.com/doc/1mxzDwtUco</Value>
+    </Setting>
+    <Setting Name="在线帮助" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://mubu.com/doc/1gzHLVBLQo</Value>
+    </Setting>
+    <Setting Name="页码" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">宋体, 14.25pt</Value>
+    </Setting>
+    <Setting Name="帮助_高级功能" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://mubu.com/doc/1AWmGNUJ9o</Value>
+    </Setting>
+    <Setting Name="公文版式" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="数字字体" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Times New Roman</Value>
+    </Setting>
+    <Setting Name="英文字体" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Times New Roman</Value>
+    </Setting>
+    <Setting Name="DPI" Type="System.Single" Scope="Application">
+      <Value Profile="(Default)">200</Value>
+    </Setting>
+    <Setting Name="VBA历史" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="VBA路径" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>
