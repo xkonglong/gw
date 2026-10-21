@@ -1,4 +1,4 @@
-## 小恐龙公文排版助手 for Word/WPS
+## 小恐龙公文排版助手 for Word/WPS  免费开源
 
 官网地址:  [https://xkonglong.com](https://xkonglong.com)
 
@@ -20,4 +20,5 @@ VBA 脚本可以实现自动排版等复杂的且个性化的操作.
 
 本插件完全免费，承诺不含任何恶意代码。
 
+从软件从2026年10月21日起开源(MIT)
 
