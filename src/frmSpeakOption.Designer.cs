@@ -111,7 +111,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmSpeakOption_FormClosing);
             this.Load += new System.EventHandler(this.FrmSpeakOption_Load);
             this.Shown += new System.EventHandler(this.FrmSpeakOption_Shown);
-            this.Leave += new System.EventHandler(this.FrmSpeakOption_Leave);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmSpeakOption_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FrmSpeakOption_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();

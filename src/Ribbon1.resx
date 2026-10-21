@@ -286,8 +286,8 @@
   <data name="btnLine1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vAAADrwBlbxySQAAAEZJREFUOE+tzrEJACAQBMHrH2zLtl7ERFgDFw0mWZ7jU1V5gWAhWAhWKumbtXln
-        3rcPA4e3DAQLwUKwECwEC8FCsBAsBGsAGsvak1RWVUAAAAAASUVORK5CYII=
+        vAAADrwBlbxySQAAAEZJREFUOE+tzMsJADAIwFD3h67Vtezn1EMOBgs+kCBGZrZgNDAaGI3YMx83FZ37
+        8eHBXjswGhgNjAZGA6OB0cBoYDQw1mUsGsvakzcm7O4AAAAASUVORK5CYII=
 </value>
   </data>
   <metadata name="btnLineH1.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

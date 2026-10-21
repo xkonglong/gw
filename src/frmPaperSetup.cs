@@ -1,127 +1,93 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Word;
-using System.IO;
 using System.Diagnostics;
 
 namespace 公文排版
 {
     public partial class frmPaperSetup : Form
     {
-        readonly Microsoft.Office.Interop.Word.Document wordDoc = Globals.ThisAddIn.Application.ActiveDocument;
-        readonly Microsoft.Office.Interop.Word.Application WordApp = Globals.ThisAddIn.Application;
+        private readonly Microsoft.Office.Interop.Word.Application WordApp = Globals.ThisAddIn.Application;
 
-        /////////////////////////////////////////////////////////////////////////
-        /// 
-        ///           函数功能区
-        /// 
-        ////////////////////////////////////////////////////////////////////////
+        private Microsoft.Office.Interop.Word.Document ActiveDoc
+        {
+            get { return WordApp.ActiveDocument; }
+        }
 
-        /// <summary>
-        /// 读取设置
-        /// </summary>
+        #region 函数区
+
         private void ReadSetting()
         {
-            nudTop.Value = (decimal)Properties.Settings.Default.上边距; //v3.6 起改为支持小数
+            nudTop.Value = (decimal)Properties.Settings.Default.上边距;
             nudBottom.Value = (decimal)Properties.Settings.Default.下边距;
             nudLeft.Value = (decimal)Properties.Settings.Default.左边距;
             nudRight.Value = (decimal)Properties.Settings.Default.右边距;
-            nudFoot.Value = (decimal)Properties.Settings.Default.页脚边距;  //24.7 有小数
+            nudFoot.Value = (decimal)Properties.Settings.Default.页脚边距;
 
             nudLine.Value = Properties.Settings.Default.行数;
             nudLetters.Value = Properties.Settings.Default.字数;
 
-
-            chkGW.Checked = Properties.Settings.Default.公文版式; //是否开启公文版式选项
-
-            chkLineSpacing.Checked = Properties.Settings.Default.允许行间距;//是否允许设置行间距
-            nudLineSpacing.Value = (decimal)Properties.Settings.Default.行间距; //小数
+            chkGW.Checked = Properties.Settings.Default.公文版式;
+            chkLineSpacing.Checked = Properties.Settings.Default.允许行间距;
+            nudLineSpacing.Value = (decimal)Properties.Settings.Default.行间距;
         }
 
-        /// <summary>
-        /// 写入设置
-        /// </summary>
         private void WriteSetting()
         {
-            //v3.6 起页边距改为支持小数
             this.Cursor = Cursors.WaitCursor;
-            Properties.Settings.Default.上边距 = (float)nudTop.Value;
-            Properties.Settings.Default.下边距 = (float)nudBottom.Value;
-            Properties.Settings.Default.左边距 = (float)nudLeft.Value;
-            Properties.Settings.Default.右边距 = (float)nudRight.Value;
-            Properties.Settings.Default.行数 = (int)nudLine.Value;
-            Properties.Settings.Default.字数 = (int)nudLetters.Value;
-            Properties.Settings.Default.页脚边距 = (float)nudFoot.Value;
-            Properties.Settings.Default.行间距 = (float)nudLineSpacing.Value;
-            Properties.Settings.Default.允许行间距 = chkLineSpacing.Checked;  //是否允许为固定行间距
-            Properties.Settings.Default.公文版式 = chkGW.Checked;  //是否开启公文板式
-            Properties.Settings.Default.Save();
-            this.Cursor = Cursors.Default;
+            try
+            {
+                Properties.Settings.Default.上边距 = (float)nudTop.Value;
+                Properties.Settings.Default.下边距 = (float)nudBottom.Value;
+                Properties.Settings.Default.左边距 = (float)nudLeft.Value;
+                Properties.Settings.Default.右边距 = (float)nudRight.Value;
+                Properties.Settings.Default.行数 = (int)nudLine.Value;
+                Properties.Settings.Default.字数 = (int)nudLetters.Value;
+                Properties.Settings.Default.页脚边距 = (float)nudFoot.Value;
+                Properties.Settings.Default.行间距 = (float)nudLineSpacing.Value;
+                Properties.Settings.Default.允许行间距 = chkLineSpacing.Checked;
+                Properties.Settings.Default.公文版式 = chkGW.Checked;
+                Properties.Settings.Default.Save();
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
         }
 
-
-        /// <summary>
-        /// /公文页面设置方法
-        /// </summary>
         void SetGWPage()
         {
+            var doc = ActiveDoc;
+            if (doc == null) throw new InvalidOperationException("没有打开的文档");
 
-            //获取页边距数值
             float top = WordApp.CentimetersToPoints((float)nudTop.Value / 10);
             float bottom = WordApp.CentimetersToPoints((float)nudBottom.Value / 10);
             float left = WordApp.CentimetersToPoints((float)nudLeft.Value / 10);
             float right = WordApp.CentimetersToPoints((float)nudRight.Value / 10);
             float foot = WordApp.CentimetersToPoints((float)nudFoot.Value / 10);
-            //获取行数和字数值
             float letter = (float)nudLetters.Value;
             float line = (float)nudLine.Value;
             float spacing = 0;
 
-
-
-            //设置中文和西文默认字体
             try
             {
-                wordDoc.Styles[-1].Font.NameFarEast = Properties.Settings.Default.正文.Name;
-
+                doc.Styles[-1].Font.NameFarEast = Properties.Settings.Default.正文.Name;
                 string letterFont = Properties.Settings.Default.英文字体;
-                //wordDoc.Styles[-1].Font.NameAscii = letterFont;    //这个只能指定字母
-                wordDoc.Styles[-1].Font.Name= letterFont;   //这个可以指定西文字体(字母+数字)
+                if (!string.IsNullOrEmpty(letterFont))
+                    doc.Styles[-1].Font.Name = letterFont;
             }
             catch (Exception ex)
             {
-                wordDoc.Styles[-1].Font.NameFarEast = "+中文正文";
-                wordDoc.Styles[-1].Font.Name = "++西文正文";
-                Debug.WriteLine(ex.Message);
+                Debug.WriteLine("默认字体设置失败: " + ex.Message);
             }
 
+            if (chkGW.Checked)
+                doc.Styles[-1].Font.Size = 16;
 
+            if (chkLineSpacing.Checked)
+                spacing = (float)nudLineSpacing.Value;
 
-
-
-            if (chkGW.Checked) //如果允许公文精准版式
-            {
-
-                //设置行数和字数前必须设置中文字体为16     //wdStyleNormal	-1	 正常。
-                //wordDoc.Styles[-1].Font.NameFarEast = "+中文正文";
-                wordDoc.Styles[-1].Font.Size = 16;
-                   
-            }
-            if (chkLineSpacing.Checked)    //如果允许固定行间距
-            {
-                spacing = (float)nudLineSpacing.Value;  //获取行间距的值
-            }
-
-
-            ////设置上下左右边距
-            //wordDoc.PageSetup.TopMargin = top;
-            //wordDoc.PageSetup.BottomMargin = bottom;
-            //wordDoc.PageSetup.LeftMargin = left;
-            //wordDoc.PageSetup.RightMargin = right;
-            //wordDoc.PageSetup.FooterDistance = foot;
-            ////wordDoc.PageSetup.Gutter = 0 //额外页边距
-
-            foreach (Section s in wordDoc.Sections)
+            foreach (Section s in doc.Sections)
             {
                 s.PageSetup.TopMargin = top;
                 s.PageSetup.BottomMargin = bottom;
@@ -129,97 +95,71 @@ namespace 公文排版
                 s.PageSetup.RightMargin = right;
                 s.PageSetup.FooterDistance = foot;
 
-                if (s.PageSetup.Orientation == WdOrientation.wdOrientPortrait)//如果页面竖向
+                if (s.PageSetup.Orientation == WdOrientation.wdOrientPortrait)
                 {
-                    //设置竖向A4页面
                     s.PageSetup.PageWidth = WordApp.CentimetersToPoints(21);
                     s.PageSetup.PageHeight = WordApp.CentimetersToPoints(29.7f);
-                   
 
-                    if (chkGW.Checked) //如果允许公文精准版式
+                    if (chkGW.Checked)
                     {
                         s.PageSetup.LayoutMode = WdLayoutMode.wdLayoutModeGrid;
                         s.PageSetup.CharsLine = letter;
                         s.PageSetup.LinesPage = line;
-                            
                     }
                     if (chkLineSpacing.Checked)
                     {
-                        s.Range.ParagraphFormat.LineSpacingRule = WdLineSpacing.wdLineSpaceExactly;  //固定行间距
-                        s.Range.ParagraphFormat.LineSpacing = spacing; //设置行间距
+                        s.Range.ParagraphFormat.LineSpacingRule = WdLineSpacing.wdLineSpaceExactly;
+                        s.Range.ParagraphFormat.LineSpacing = spacing;
                     }
                 }
                 else
                 {
-                    //设置横向A4, 通常为表格 行间距,行数字数不做调整
                     s.PageSetup.PageWidth = WordApp.CentimetersToPoints(29.7f);
                     s.PageSetup.PageHeight = WordApp.CentimetersToPoints(21);
                 }
-
             }
-  
         }
 
-
-        /// <summary>
-        /// 仅嵌入文档中所用的字符. 比如使用了小标宋标题,只保存这个标题用到的字符.减少文档尺寸,又保证了兼容性.
-        /// </summary>
-        /// <param name="i">bool值,为真嵌入字体</param>
-        private void IncludFonts(bool i)
+        private void IncludFonts(bool embed)
         {
             try
             {
-                WordApp.ActiveDocument.EmbedTrueTypeFonts = i;
-                WordApp.ActiveDocument.SaveSubsetFonts = i;
+                var doc = ActiveDoc;
+                if (doc == null) return;
+                doc.EmbedTrueTypeFonts = embed;
+                doc.SaveSubsetFonts = embed;
             }
             catch (Exception ex)
             {
-                string err = ex.Message + "\r\n\r\n" + ex.Source;
-                MessageBox.Show(err, "设置保存嵌入字体时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ex.Message + "\r\n\r\n" + ex.Source,
+                    "设置保存嵌入字体时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
-
-
-        /// <summary>
-        /// 显示隐藏文字,但是不打印.
-        /// </summary>
-        /// <param name="i">bool值,是否显示隐藏文字,粗暴设为不打印.</param>
-        private void ShowHideFont(bool i)
+        private void ShowHideFont(bool show)
         {
             try
             {
-                WordApp.ActiveWindow.View.ShowHiddenText = i;
+                WordApp.ActiveWindow.View.ShowHiddenText = show;
                 WordApp.Options.PrintHiddenText = false;
             }
             catch (Exception ex)
             {
-                string err = ex.Message + "\r\n\r\n" + ex.Source;
-                MessageBox.Show(err, "设置显示隐藏字体时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ex.Message + "\r\n\r\n" + ex.Source,
+                    "设置显示隐藏字体时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
+        #endregion
 
-
-
-
-        /////////////////////////////////////////////////////////////////////////
-        /// 
-        ///           事件区
-        /// 
-        ////////////////////////////////////////////////////////////////////////
-
-
-
+        #region 事件区
 
         public frmPaperSetup()
         {
             InitializeComponent();
         }
 
-
-
-        private void FrmPaperSetup_Load(object sender, EventArgs e)// 设置窗口载入时读取配置文件
+        private void FrmPaperSetup_Load(object sender, EventArgs e)
         {
             ReadSetting();
             nudLineSpacing.Enabled = chkLineSpacing.Checked;
@@ -227,54 +167,65 @@ namespace 公文排版
             nudLine.Enabled = chkGW.Checked;
         }
 
-        private void BtnReset_Click(object sender, EventArgs e)//重置按钮
+        private void BtnReset_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("确定恢复默认页面设置吗？", "确认",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                return;
+
             try
             {
                 Properties.Settings.Default.Reset();
+                Properties.Settings.Default.Reload();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                string err = ex.Message + "\r\n\r\n" + ex.Source;
-                MessageBox.Show(err, "重置设置时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ex.Message + "\r\n\r\n" + ex.Source,
+                    "重置设置时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             ReadSetting();
-
         }
 
-
-        private void BtnApply_Click(object sender, EventArgs e) //应用页面设置
+        private bool ApplySettings()
         {
-            string tip = "";
             try
             {
                 Microsoft.Office.Interop.Word.UndoRecord undo = WordApp.UndoRecord;
                 undo.StartCustomRecord("公文页面设置");
-                SetGWPage();
-                undo.EndCustomRecord();
-
+                try { SetGWPage(); }
+                finally { undo.EndCustomRecord(); }
+                return true;
             }
             catch (System.Runtime.InteropServices.COMException ex)
             {
-                MessageBox.Show(ex.Message, "设置页面时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ex.Message, "设置页面时出错",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
             }
-            //是否嵌入字体字符
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "设置页面时出错",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+        }
+
+        private void BtnApply_Click(object sender, EventArgs e)
+        {
+            if (!ApplySettings()) return;
             IncludFonts(chkIncludeFonts.Checked);
             try
             {
-                //保存配置
                 WriteSetting();
             }
             catch (Exception ex)
             {
-                tip += ex.Message + "\r\n" +"请重置 Word 默认模板后再尝试!";
-                MessageBox.Show(tip, "保存设置时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ex.Message + "\r\n请重置 Word 默认模板后再尝试!",
+                    "保存设置时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
-
         }
 
-        private void LinkLabel1_Click(object sender, EventArgs e) //打开页面设置对话框
+        private void LinkLabel1_Click(object sender, EventArgs e)
         {
             try
             {
@@ -282,47 +233,42 @@ namespace 公文排版
             }
             catch (Exception ex)
             {
-                string err = ex.Message + "\r\n\r\n" + ex.Source;
-                MessageBox.Show(err, "打开页面设置对话框时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ex.Message + "\r\n\r\n" + ex.Source,
+                    "打开页面设置对话框时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
-
-
-        
-        private void FrmPaperSetup_KeyPress(object sender, KeyPressEventArgs e)//页面设置对话框,按下Esc关闭.
+        private void FrmPaperSetup_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar ==(char) Keys.Escape)
-            {
-                this.Close();
-            }
+            if (e.KeyChar == (char)Keys.Escape) this.Close();
         }
-       
-        private void BtnOK_Click(object sender, EventArgs e) //页面设置对话框,确定按钮
+
+        private void BtnOK_Click(object sender, EventArgs e)
         {
-            
             Cursor.Current = Cursors.WaitCursor;
-            BtnApply_Click(sender,e); //应用设置
-
-
-            WriteSetting(); //保存配置
-
-            Cursor.Current = Cursors.Default;
-            this.Close();  //关闭窗体
-
+            try
+            {
+                // ApplySettings 内部已完成 WriteSetting
+                if (ApplySettings())
+                    this.Close();
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
         }
-        
-        private void ChkShowHideFont_CheckedChanged(object sender, EventArgs e)//checkbox切换显示隐藏文字.
+
+        private void ChkShowHideFont_CheckedChanged(object sender, EventArgs e)
         {
             ShowHideFont(chkShowHideFont.Checked);
         }
 
-        private void ChkLineSpacing_CheckedChanged(object sender, EventArgs e) //切换是否允许调整行间距
+        private void ChkLineSpacing_CheckedChanged(object sender, EventArgs e)
         {
             nudLineSpacing.Enabled = chkLineSpacing.Checked;
         }
 
-        private void FrmPaperSetup_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)//标题栏帮助按钮
+        private void FrmPaperSetup_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
         {
             try
             {
@@ -330,24 +276,20 @@ namespace 公文排版
             }
             catch (System.ComponentModel.Win32Exception w)
             {
-
-                MessageBox.Show(w.Message, "打开在线帮助时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(w.Message, "打开在线帮助时出错",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             catch (Exception ex)
             {
-                string err = ex.Message + "\r\n\r\n" + ex.Source;
-                MessageBox.Show(err, "打开在线帮助时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ex.Message + "\r\n\r\n" + ex.Source,
+                    "打开在线帮助时出错", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            //Help.ShowPopup((Control)sender, "点击帮助按钮后,再点击不懂的地方或控件,可以获得帮助.", MousePosition);
-
-
         }
 
-        
-        private void FrmPaperSetup_FormClosed(object sender, FormClosedEventArgs e)   //窗体关闭后,页面设置按钮恢复为未按下状态
+        private void FrmPaperSetup_FormClosed(object sender, FormClosedEventArgs e)
         {
-            
-            Globals.Ribbons.Ribbon1.btnPaper.Checked = false;
+            if (Globals.Ribbons.Ribbon1 != null)
+                Globals.Ribbons.Ribbon1.btnPaper.Checked = false;
             this.Dispose();
         }
 
@@ -357,50 +299,45 @@ namespace 公文排版
             nudLetters.Enabled = chkGW.Checked;
         }
 
- 
-
-        private void ShowHiddenText(object sender, EventArgs e)  //调用显示隐藏文字选项
+        private void ShowHiddenText(object sender, EventArgs e)
         {
             try
             {
                 WordApp.Dialogs[WdWordDialog.wdDialogToolsOptionsView].Show();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                //Globals.ThisAddIn.Logging(ex.Source, ex.Message);
-                throw;
-
+                Debug.WriteLine("ShowHiddenText: " + ex.Message);
+                WordApp.StatusBar = ex.Message;
             }
         }
-        private void SaveFontInDoc(object sender, EventArgs e) //调用嵌入字体选项
+
+        private void SaveFontInDoc(object sender, EventArgs e)
         {
             try
             {
                 WordApp.Dialogs[WdWordDialog.wdDialogToolsOptionsSave].Show();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                //Globals.ThisAddIn.Logging(ex.Source, ex.Message);
+                Debug.WriteLine("SaveFontInDoc: " + ex.Message);
             }
         }
-        private void ShowWordGW(object sender, EventArgs e) //调用页面布局选项对话框
+
+        private void ShowWordGW(object sender, EventArgs e)
         {
             try
             {
-                WordApp.Dialogs[WdWordDialog.wdDialogFilePageSetup].DefaultTab = WdWordDialogTab.wdDialogFilePageSetupTabLayout;
+                WordApp.Dialogs[WdWordDialog.wdDialogFilePageSetup].DefaultTab =
+                    WdWordDialogTab.wdDialogFilePageSetupTabLayout;
                 WordApp.Dialogs[WdWordDialog.wdDialogFilePageSetup].Show();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                //Globals.ThisAddIn.Logging(ex.Source, ex.Message);
+                Debug.WriteLine("ShowWordGW: " + ex.Message);
             }
         }
- 
 
-
-
-
-
-
+        #endregion
     }
 }

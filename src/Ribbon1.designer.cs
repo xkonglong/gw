@@ -83,7 +83,6 @@ namespace 公文排版
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl5 = this.Factory.CreateRibbonDialogLauncher();
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl6 = this.Factory.CreateRibbonDialogLauncher();
             this.tabXKl = this.Factory.CreateRibbonTab();
-            this.group4 = this.Factory.CreateRibbonGroup();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.btnPaper = this.Factory.CreateRibbonToggleButton();
             this.btnInsert2 = this.Factory.CreateRibbonButton();
@@ -133,6 +132,7 @@ namespace 公文排版
             this.btnFoot = this.Factory.CreateRibbonButton();
             this.btnStyle = this.Factory.CreateRibbonSplitButton();
             this.btnStyleR = this.Factory.CreateRibbonButton();
+            this.group4 = this.Factory.CreateRibbonGroup();
             this.mnuInsertGWObject = this.Factory.CreateRibbonMenu();
             this.btnHeadSingle = this.Factory.CreateRibbonButton();
             this.btnHeadMulti = this.Factory.CreateRibbonButton();
@@ -201,11 +201,11 @@ namespace 公文排版
             this.button3 = this.Factory.CreateRibbonButton();
             this.button1 = this.Factory.CreateRibbonButton();
             this.tabXKl.SuspendLayout();
-            this.group4.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
             this.group3.SuspendLayout();
             this.buttonGroup2.SuspendLayout();
+            this.group4.SuspendLayout();
             this.group6.SuspendLayout();
             this.buttonGroup1.SuspendLayout();
             this.group5.SuspendLayout();
@@ -224,17 +224,6 @@ namespace 公文排版
             this.tabXKl.KeyTip = "XKL";
             this.tabXKl.Label = "公文";
             this.tabXKl.Name = "tabXKl";
-            // 
-            // group4
-            // 
-            this.group4.Items.Add(this.mnuInsertGWObject);
-            this.group4.Items.Add(this.btnDate);
-            this.group4.Items.Add(this.btnInsertPaper);
-            this.group4.Items.Add(this.glyFoot);
-            this.group4.Items.Add(this.glySymbol);
-            this.group4.Items.Add(this.btnInsertSignPic);
-            this.group4.Label = "插入";
-            this.group4.Name = "group4";
             // 
             // group1
             // 
@@ -734,6 +723,17 @@ namespace 公文排版
             this.btnStyleR.ScreenTip = "强制重建公文样式";
             this.btnStyleR.ShowImage = true;
             this.btnStyleR.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnStyleR_Click);
+            // 
+            // group4
+            // 
+            this.group4.Items.Add(this.mnuInsertGWObject);
+            this.group4.Items.Add(this.btnDate);
+            this.group4.Items.Add(this.btnInsertPaper);
+            this.group4.Items.Add(this.glyFoot);
+            this.group4.Items.Add(this.glySymbol);
+            this.group4.Items.Add(this.btnInsertSignPic);
+            this.group4.Label = "插入";
+            this.group4.Name = "group4";
             // 
             // mnuInsertGWObject
             // 
@@ -1535,8 +1535,6 @@ namespace 公文排版
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.Ribbon1_Load);
             this.tabXKl.ResumeLayout(false);
             this.tabXKl.PerformLayout();
-            this.group4.ResumeLayout(false);
-            this.group4.PerformLayout();
             this.group1.ResumeLayout(false);
             this.group1.PerformLayout();
             this.group2.ResumeLayout(false);
@@ -1545,6 +1543,8 @@ namespace 公文排版
             this.group3.PerformLayout();
             this.buttonGroup2.ResumeLayout(false);
             this.buttonGroup2.PerformLayout();
+            this.group4.ResumeLayout(false);
+            this.group4.PerformLayout();
             this.group6.ResumeLayout(false);
             this.group6.PerformLayout();
             this.buttonGroup1.ResumeLayout(false);
