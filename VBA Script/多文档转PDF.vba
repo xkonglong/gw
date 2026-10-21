@@ -8,53 +8,71 @@
 '分享 VBA 文件时，请尊重作者版权，注明来源以示感谢。
 '====================================================================
 
-'  原作者: Bingo 260961242
-'  源码地址: https://club.excelhome.net/thread-1125035-1-2.html
-'  修改人: 小恐龙
-'  修改日期: 2023年2月7日
+'作者：小恐龙
+'日期：2025年8月31日
+'说明：重写代码，解决了有时候生成的pdf不含扩展名的情况。
 
-Option Explicit    '强制声明变量是个好习惯, 可以提高代码速度,减少bug
-
-
+Option Explicit
 
 Sub 多文档转PDF()
-
-Application.DisplayAlerts = True
-Application.ScreenUpdating = False
-
-
-Dim fDialog As FileDialog
-Set fDialog = Application.FileDialog(msoFileDialogFilePicker)
-Dim vrtSelectedItem As Variant
-Dim wdDoc As Document
-Dim i As Long
-
-With fDialog
-    .Filters.Add "Word文件", "*.doc;*.docx;*.docm", 1
-    If .Show = -1 Then
-        For Each vrtSelectedItem In .SelectedItems
-            '如果选择了本文档则跳过
-            If InStrRev(vrtSelectedItem, ThisDocument.Name) = 0 Then
-                On Error Resume Next
-                Set wdDoc = Application.Documents.Open(vrtSelectedItem, ReadOnly:=True)
-                If Right(vrtSelectedItem, 4) = "docx" Then
-                    wdDoc.SaveAs Left(vrtSelectedItem, Len(vrtSelectedItem) - 5), wdFormatPDF
-                    i = i + 1
-                 Else
-                    wdDoc.SaveAs Left(vrtSelectedItem, Len(vrtSelectedItem) - 4), wdFormatPDF
-                    i = i + 1
+    ' 关闭弹窗和屏幕刷新，提升效率
+    Application.DisplayAlerts = False
+    Application.ScreenUpdating = False
+    
+    Dim fDialog As FileDialog
+    Set fDialog = Application.FileDialog(msoFileDialogFilePicker)
+    Dim vrtSelectedItem As Variant  ' 选中的文件路径
+    Dim wdDoc As Document           ' 打开的Word文档
+    Dim i As Long                   ' 转换成功计数
+    Dim fullPath As String          ' 完整文件路径
+    Dim fileNameWithoutExt As String ' 不含扩展名的文件名
+    Dim lastDotPos As Long          ' 最后一个"."的位置
+    
+    ' 设置文件选择框：仅选Word文件
+    With fDialog
+        .Filters.Clear
+        .Filters.Add "Word文件", "*.doc;*.docx;*.docm", 1
+        .Title = "选择需转换为PDF的Word文档"
+        
+        If .Show = -1 Then ' 用户确认选择
+            For Each vrtSelectedItem In .SelectedItems
+                fullPath = CStr(vrtSelectedItem)
+                
+                ' 跳过当前VBA所在文档（避免自己转自己）
+                If InStr(LCase(fullPath), LCase(ThisDocument.Name)) = 0 Then
+                    On Error Resume Next ' 捕获文件占用等错误
+                    Set wdDoc = Application.Documents.Open(fullPath, ReadOnly:=True)
+                    
+                    If Not wdDoc Is Nothing Then ' 成功打开文档
+                        ' 关键：找到最后一个"."的位置，截取左侧为“不含扩展名的文件名”
+                        lastDotPos = InStrRev(fullPath, ".")
+                        If lastDotPos > 0 Then ' 确保文件有扩展名（避免无后缀文件报错）
+                            fileNameWithoutExt = Left(fullPath, lastDotPos - 1)
+                        Else
+                            fileNameWithoutExt = fullPath ' 无后缀时直接用原路径
+                        End If
+                        
+                        ' 直接拼接.pdf，强制带扩展名
+                        wdDoc.SaveAs _
+                            FileName:=fileNameWithoutExt & ".pdf", _
+                            FileFormat:=wdFormatPDF
+                        i = i + 1 ' 计数+1
+                        
+                        wdDoc.Close SaveChanges:=False ' 关闭文档不保存
+                        Set wdDoc = Nothing ' 释放内存
+                    End If
+                    On Error GoTo 0 ' 恢复默认错误处理
                 End If
-                'Debug.Print Left(vrtSelectedItem, Len(vrtSelectedItem) - 4)
-                wdDoc.Close False
-            End If
-        Next vrtSelectedItem
-
-    End If
-End With
-Set fDialog = Nothing
-Application.ScreenUpdating = True
-Application.DisplayAlerts = True
-MsgBox (i & "个文档已转换!")
-
-
+            Next
+        End If
+    End With
+    
+    ' 清理并恢复Word设置
+    Set fDialog = Nothing
+    Application.ScreenUpdating = True
+    Application.DisplayAlerts = True
+    
+    ' 提示结果
+    MsgBox i & "个文档已转换为PDF", vbInformation
 End Sub
+
