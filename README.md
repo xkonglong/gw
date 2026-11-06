@@ -1,6 +1,6 @@
 ## 小恐龙公文排版助手 for Word/WPS  免费开源
 
-官网地址:  [https://xkonglong.com](https://xkonglong.com)
+官网地址:  [https://gw.xkonglong.com](https://gw.xkonglong.com)
 
 ![小恐龙公文排版助手](https://gw.xkonglong.com/img/xklbanner.jpg)
 
